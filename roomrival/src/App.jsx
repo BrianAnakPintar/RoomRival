@@ -7,12 +7,13 @@ const socket = io.connect("http://localhost:3001");
 
 function App() {
   const sendMessage = () => {
-    socket.emit("send_message", "hi");
+    let username = document.getElementById("username");
+    socket.emit("set_username", username.value);
   };
 
   useEffect(() => {
-    socket.on("receive_message", (data) => {
-      alert(data);
+    socket.on("receive_user", (data) => {
+      alert(data.id);
     });
   }, [socket]);
 
@@ -22,7 +23,7 @@ function App() {
         <h1 className="text-3xl font-bold underline">
           Hello world!
         </h1>
-        <input placeholder="Message" />
+        <input id="username" />
         <button onClick={sendMessage}>Send</button>
       </header>
     </div>
