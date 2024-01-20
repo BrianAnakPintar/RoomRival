@@ -8,6 +8,24 @@ app.use(cors());
 
 const server = http.createServer(app);
 
+let users = [];
+let rooms = [];
+
+/*
+room
+{
+  roomid,
+  pointsWorth,
+  currentUser
+}
+
+*/
+
+function addUser(id, username) {
+  let user = {id: id, user: username, pts: 0};
+  users.push(user);
+}
+
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
@@ -17,9 +35,10 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
-  
-    socket.on("send_message", (data) => {
-      socket.broadcast.emit("receive_message", data);
+    socket.on("set_username", (username) => {
+      addUser(socket.id, username);
+      console.log(users.length);
+      socket.emit("receive_user", user);
     });
   });
   

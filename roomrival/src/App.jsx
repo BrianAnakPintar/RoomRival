@@ -7,28 +7,26 @@ import Login from "./components/Login";
 const socket = io.connect("http://localhost:3001");
 
 function App() {
-    const sendMessage = () => {
-        socket.emit("send_message", "hi");
-    };
+  const sendMessage = () => {
+    let username = document.getElementById("username");
+    socket.emit("set_username", username.value);
+  };
 
-    useEffect(() => {
-        socket.on("receive_message", (data) => {
-            alert(data);
-        });
-    }, [socket]);
+  useEffect(() => {
+    socket.on("receive_user", (data) => {
+      alert(data.id);
+    });
+  }, [socket]);
 
-    return (
-        <div className="App">
-            <header className="App-header">
-                {/*<h1 className="text-3xl font-bold underline text-white">*/}
-                {/*    Hello world!*/}
-                {/*</h1>*/}
-                {/*<input placeholder="Message"/>*/}
-                {/*<button onClick={sendMessage} className="text-white">Send</button>*/}
-                <Login/>
-            </header>
-        </div>
-    );
+  return (
+    <div className="App">
+      <header className="App-header">
+        <input id="username" />
+        <button onClick={sendMessage}>Send</button>
+        <Login/>
+      </header>
+    </div>
+  );
 }
 
 export default App;
