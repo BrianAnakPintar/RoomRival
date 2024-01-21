@@ -1,10 +1,9 @@
 import React from 'react';
 const Leaderboard = ({ onClose, leaderboardData }) => {
     return (
-        <div>
-            <h2>Leaderboard</h2>
+        <div className="overflow-x-auto">
             <button onClick={onClose}>Close Leaderboard</button>
-            <table>
+            <table className="table table-zebra">
                 <thead>
                 <tr>
                     <th>Rank</th>
@@ -27,3 +26,4 @@ const Leaderboard = ({ onClose, leaderboardData }) => {
 };
 
 export default Leaderboard;
+
