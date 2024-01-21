@@ -9,6 +9,7 @@ import Map from "./components/Map";
 import BasicMap from "./Basic";
 import Navbar from "./components/Navbar";
 import AppBody from "./components/AppBody";
+import Leaderboard from "./components/Leaderboard";
 
 const socket = io.connect("http://localhost:3001");
 
@@ -37,6 +38,32 @@ function App() {
 
     const sendPointUpdate = (num) => {
         socket.emit("point_update", num);
+    };
+
+
+    const [showLeaderboard, setShowLeaderboard] = useState(false);
+    const [leaderboardData, setLeaderboardData] = useState([]);
+
+    useEffect(() => {
+        socket.on("point_update", (data) => {
+            setLeaderboardData(leaderboardData);
+        });
+
+    }, [socket]);
+
+    // const leaderboardTemp = [
+    //     { username: 'Alice', score: 1200 },
+    //     { username: 'Bob', score: 950 },
+    //     { username: 'Charlie', score: 800 },
+    //     { username: 'David', score: 1100 },
+    // ];
+
+
+    const handleLeaderboardClick = () => {
+        setShowLeaderboard(true);
+    };
+    const handleCloseLeaderboard = () => {
+        setShowLeaderboard(false);
     };
 
     return (
@@ -69,10 +96,12 @@ function App() {
             {showScanner && (
                 <QRScannerComponent handleSubmit={sendPointUpdate} onToggleScanner={handleToggleScanner}/>
             )}
-            <div></div>
+            {showLeaderboard && (
+                <Leaderboard handleOpenLB={handleLeaderboardClick} handleCloseLB={handleCloseLeaderboard} leaderboardData={leaderboardData} />
+            )}
             </body>
             {!showPopup && (
-                <Navbar className="navbar" onToggleScanner={handleToggleScanner}/>
+                <Navbar className="navbar" onToggleScanner={handleToggleScanner} handleOpenLB={handleLeaderboardClick}  />
             )}
         </div>
     );

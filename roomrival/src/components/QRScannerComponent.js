@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import QRScanner from 'qr-scanner'; // Replace with the actual library import
 
 // const QRScannerComponent = ({handleSubmit}) => {
-const QRScannerComponent = ({ onToggleScanner }) => {
+const QRScannerComponent = ({ onToggleScanner, handleSubmit }) => {
     const [scan, setScan] = useState(null);
 
     useEffect(() => {
