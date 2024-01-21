@@ -8,10 +8,15 @@ import {Html5QrcodeScanner} from "html5-qrcode";
 const socket = io.connect("http://localhost:3001");
 
 function App() {
-    const sendMessage = () => {
-        let username = document.getElementById("username");
-        socket.emit("set_username", username.value);
-    };
+
+  const sendMessage = () => {
+    let username = document.getElementById("username");
+    socket.emit("set_username", username.value);
+  };
+
+  const clearData = () => {
+    socket.emit("clear");
+  }
 
     useEffect(() => {
         const scanner = new Html5QrcodeScanner('reader', {
@@ -47,6 +52,7 @@ function App() {
             </body>
         </div>
     );
+
 }
 
 export default App;
