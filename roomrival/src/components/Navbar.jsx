@@ -1,6 +1,7 @@
 import io from "socket.io-client";
 import React, {useEffect, useState} from "react";
 import Leaderboard from "./Leaderboard";
+import QRButton from "./QRButton";
 
 const socket = io.connect("http://localhost:3001");
 function Navbar({onToggleScanner}) {
@@ -10,7 +11,7 @@ function Navbar({onToggleScanner}) {
 
     useEffect(() => {
         socket.on("point_update", (data) => {
-            setLeaderboardData(leaderboardData);
+            setLeaderboardData(data);
         });
 
     }, [socket]);
@@ -37,7 +38,7 @@ function Navbar({onToggleScanner}) {
             </div>
             <div className="navbar-center lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><a onClick={onToggleScanner}>QR CODE</a></li>
+                    <li><a onClick={onToggleScanner} style={{backgroundColor:"white"}}><QRButton/></a></li>
                 </ul>
             </div>
             <div className="navbar-end">
