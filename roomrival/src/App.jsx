@@ -11,9 +11,13 @@ function App() {
     socket.emit("set_username", username.value);
   };
 
+  const clearData = () => {
+    socket.emit("clear");
+  }
+
   useEffect(() => {
     socket.on("receive_user", (data) => {
-      alert(data.id);
+      alert(data);
     });
   }, [socket]);
 
@@ -25,6 +29,7 @@ function App() {
         </h1>
         <input id="username" />
         <button onClick={sendMessage}>Send</button>
+        <button onClick={clearData}>Clear</button>
       </header>
     </div>
   );
