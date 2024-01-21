@@ -1,14 +1,11 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import io from "socket.io-client";
-import {useEffect} from "react";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
+import {Html5QrcodeScanner} from "html5-qrcode";
 
 const socket = io.connect("http://localhost:3001");
-import Navbar from "./components/navbar";
-import AMSMap from "./components/ams_map";
-import { Html5QrcodeScanner} from "html5-qrcode";
 
 function App() {
     const sendMessage = () => {
@@ -42,11 +39,12 @@ function App() {
             {/*<header className="App-header">*/}
             {/*</header>*/}
             <body className="App-body">
-                <div id="reader"></div>
+                <div id="reader" className="text-white"></div>
+                <div id="app"></div>
                 <button onClick={sendMessage}>Send</button>
                 <Login/>
+                <Navbar className="navbar"/>
             </body>
-            <Navbar className="navbar"/>
         </div>
     );
 }
