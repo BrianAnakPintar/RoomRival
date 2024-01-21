@@ -53,7 +53,7 @@ const Login = ({onSubmit, showPopup}) => {
 
     return (
         // <div className={`${showPopup ? 'w-1/2 ml-auto' : 'w-full'}`}>
-        <div className={`${setPageLayout()}`} style={{ background: 'linear-gradient(to bottom, #323540, #898ea1)' }}>
+        <div className={`${setPageLayout()}`} style={{ background: isWidePage() ? 'linear-gradient(to right, #323540, #898ea1)' : 'linear-gradient(to bottom, #323540, #898ea1)'}}>
             <div className="flex items-center justify-center" style={{ height: setPageLayoutLogin() }}>
                 <div className="card w-96 bg-base-100 shadow-xl">
                     <div className="card-body">
