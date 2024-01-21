@@ -20,10 +20,6 @@ function App() {
 
     }, [socket]);
 
-    const sendMessage = () => {
-        let username = document.getElementById("username");
-        socket.emit("set_username", username.value);
-    };
 
         function scanError(result) {
             console.warn(result)
@@ -46,10 +42,6 @@ function App() {
     const sendPointUpdate = (num) => {
         socket.emit("point_update", num);
     };
-
-    const clearData = () => {
-        socket.emit("clear");
-    }
 
     return (
     <div className="App">
