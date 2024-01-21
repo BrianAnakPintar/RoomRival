@@ -1,10 +1,19 @@
-import React from 'react';
-
+import React, {useState} from 'react';
+import Leaderboard from "./Leaderboard";
 const Map = ({ username }) => {
+    const [showLeaderboard, setShowLeaderboard] = useState(false);
+    const [leaderboardData, setLeaderboardData] = useState([]);
+
+    const handleLeaderboardClick = () => {
+        setShowLeaderboard(true);
+    };
+
+
+
     return (
         <div>
             <h1>Welcome, {username}!</h1>
-            {/* Rest of your map page content */}
+            {/* the map code */}
         </div>
     );
 };

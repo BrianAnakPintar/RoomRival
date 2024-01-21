@@ -6,7 +6,6 @@ import io from "socket.io-client";
 import {useState} from "react";
 import Login from "./components/Login";
 import Map from "./components/Map";
-//npm install react-router-dom
 
 const socket = io.connect("http://localhost:3001");
 
@@ -30,14 +29,20 @@ function App() {
         function scanError(result) {
             console.warn(result)
         }
-    }, []);
+
+        socket.on("receive_user", (user) => {
+            alert(user.user);
+        });
+    }, [socket]);
 
     const [username, setUsername] = useState('');
     const [showPopup, setShowPopup] = useState(true);
 
     const handleUsernameSubmit = (enteredUsername) => {
         setUsername(enteredUsername);
+        socket.emit("set_username", enteredUsername);
         setShowPopup(false);
+
     };
 
     return (
