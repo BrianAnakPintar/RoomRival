@@ -50,6 +50,7 @@ function App() {
     };
 
     const sendPointUpdate = (num) => {
+        console.log("b");
         socket.emit("room_update", num);
     };
 
@@ -59,7 +60,7 @@ function App() {
 
     useEffect(() => {
         socket.on("point_update", (data) => {
-            setLeaderboardData(leaderboardData);
+            setLeaderboardData(data);
         });
 
     }, [socket]);

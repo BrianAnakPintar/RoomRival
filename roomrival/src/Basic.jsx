@@ -4,8 +4,8 @@ import useMapView from "./hooks/useMapView.ts";
 import useVenueMaker from "./hooks/useVenueMaker.ts";
 
 /* This demo shows you how to configure and render a map. */
-export default function BasicMap( { showPopup, changeColorRoomIdx, changeColorRoomColor } ) {
-export default function BasicMap({showPopup}) {
+export default function BasicMap({showPopup, changeColorRoomIdx, changeColorRoomColor}) {
+
     const [pageDimensions, setPageDimensions] = useState({
         width: window.innerWidth,
         height: window.innerHeight,
@@ -129,7 +129,8 @@ export default function BasicMap({showPopup}) {
                     </select>
                 )}
             </div>
-            <div id="map-container" ref={elementRef} style={{ height: setPageLayoutMap(), background: '#323540' }} className="mt-2"></div>
+            <div id="map-container" ref={elementRef} style={{height: setPageLayoutMap(), background: '#323540'}}
+                 className="mt-2"></div>
         </div>
     );
 }

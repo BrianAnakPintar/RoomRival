@@ -38,7 +38,7 @@ function Navbar({onToggleScanner, handleOpenLB}) {
             </div>
             <div className="navbar-center lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><a onClick={onToggleScanner} style={{backgroundColor:"white"}}><QRButton/></a></li>
+                    <li onClick={onToggleScanner} style={{backgroundColor:"white"}}><QRButton/></li>
                 </ul>
             </div>
             <div className="navbar-end">
