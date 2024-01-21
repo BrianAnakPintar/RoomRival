@@ -15,7 +15,7 @@ const socket = io.connect("http://localhost:3001");
 function App() {
     useEffect(() => {
         socket.on("receive_user", (data) => {
-            alert(data);
+            // alert(data);
         });
 
     }, [socket]);
@@ -67,7 +67,7 @@ function App() {
                 )}
             </div>
             {showScanner && (
-                <QRScannerComponent handleSubmit={sendPointUpdate} />
+                <QRScannerComponent handleSubmit={sendPointUpdate} onToggleScanner={handleToggleScanner}/>
             )}
             <div></div>
             </body>

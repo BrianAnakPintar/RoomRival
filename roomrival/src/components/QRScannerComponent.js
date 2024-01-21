@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import QRScanner from 'qr-scanner'; // Replace with the actual library import
 
-const QRScannerComponent = ({handleSubmit}) => {
+// const QRScannerComponent = ({handleSubmit}) => {
+const QRScannerComponent = ({ onToggleScanner }) => {
+    const [scan, setScan] = useState(null);
+
     useEffect(() => {
         const video = document.getElementById('qr-video');
         const videoContainer = document.getElementById('video-container');
@@ -13,9 +16,9 @@ const QRScannerComponent = ({handleSubmit}) => {
         }
 
         function setResult(label, result) {
-            alert(result.data);
             handleStuff(result.data);
             scanner.stop();
+            onToggleScanner();
         }
 
         const startScanner = async () => {
@@ -31,6 +34,8 @@ const QRScannerComponent = ({handleSubmit}) => {
                     highlightScanRegion: true,
                     highlightCodeOutline: true,
                 });
+
+                setScan(scanner);
 
                 await scanner.start();
 
@@ -54,6 +59,7 @@ const QRScannerComponent = ({handleSubmit}) => {
                 video.pause();
                 if (scanner) {
                     scanner.stop();
+                    onToggleScanner();
                 }
             } else {
                 // Resume the video stream and restart the scanner when the window regains focus
@@ -83,9 +89,18 @@ const QRScannerComponent = ({handleSubmit}) => {
         };
     }, []);
 
+
+    const handleScannerClose = () => {
+        onToggleScanner();
+        if (scan) {
+            console.log('here', scan)
+            scan.stop();
+        }
+    };
+
     return (
         // <div className="fixed h-screen">
-             <modal className="modal" open={true}>
+             <modal className="modal" open>
                 <div className="modal-box text-sm">
                     <div id="video-container">
                         <video id="qr-video" autoPlay playsInline></video>
@@ -93,6 +108,9 @@ const QRScannerComponent = ({handleSubmit}) => {
                     <div className="pt-4">
                         <select id="select-camera"></select>
                         <div id="cam-qr-result"></div>
+                    </div>
+                    <div className="pt-2">
+                        <button className="btn btn-sm btn-outline" onClick={handleScannerClose}>Close</button>
                     </div>
                 </div>
                 <button>Close</button>
