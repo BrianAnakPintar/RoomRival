@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import QRScanner from 'qr-scanner'; // Replace with the actual library import
 
-const QRScannerComponent = () => {
+const QRScannerComponent = ({ onToggleScanner }) => {
+    const [scan, setScan] = useState(null);
+
     useEffect(() => {
         const video = document.getElementById('qr-video');
         const videoContainer = document.getElementById('video-container');
@@ -9,9 +11,10 @@ const QRScannerComponent = () => {
         let scanner;
 
         function setResult(label, result) {
-            alert(result.data);
+            // alert(result.data);
             // sendPointUpdate(result.data);
             scanner.stop();
+            onToggleScanner();
         }
 
         const startScanner = async () => {
@@ -27,6 +30,8 @@ const QRScannerComponent = () => {
                     highlightScanRegion: true,
                     highlightCodeOutline: true,
                 });
+
+                setScan(scanner);
 
                 await scanner.start();
 
@@ -50,6 +55,7 @@ const QRScannerComponent = () => {
                 video.pause();
                 if (scanner) {
                     scanner.stop();
+                    onToggleScanner();
                 }
             } else {
                 // Resume the video stream and restart the scanner when the window regains focus
@@ -79,14 +85,32 @@ const QRScannerComponent = () => {
         };
     }, []);
 
+
+    const handleScannerClose = () => {
+        onToggleScanner();
+        if (scan) {
+            console.log('here', scan)
+            scan.stop();
+        }
+    };
+
     return (
-        <div>
-            <div id="video-container">
-                <video id="qr-video" autoPlay playsInline></video>
-            </div>
-            <select id="select-camera"></select>
-            <div id="cam-qr-result"></div>
-        </div>
+        // <div className="fixed h-screen">
+             <modal className="modal" open>
+                <div className="modal-box text-sm">
+                    <div id="video-container">
+                        <video id="qr-video" autoPlay playsInline></video>
+                    </div>
+                    <div className="pt-4">
+                        <select id="select-camera"></select>
+                        <div id="cam-qr-result"></div>
+                    </div>
+                    <div className="pt-2">
+                        <button className="btn btn-sm btn-outline" onClick={handleScannerClose}>Close</button>
+                    </div>
+                </div>
+            </modal>
+        // </div>
     );
 };
 
