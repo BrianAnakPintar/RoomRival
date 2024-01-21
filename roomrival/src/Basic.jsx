@@ -4,14 +4,14 @@ import useMapView from "./hooks/useMapView.ts";
 import useVenueMaker from "./hooks/useVenueMaker.ts";
 
 /* This demo shows you how to configure and render a map. */
-export default function BasicMap() {
+export default function BasicMap({ showPopup }) {
     /*
      * API keys and options for fetching the venue must be memoized
      * to prevent React from re-rendering excessively.
      */
     const credentials = useMemo(
         () => ({
-            mapId: "657cc670040fcba69696e69e",
+            mapId: "659efcf1040fcba69696e7b6",
             key: "65a0422df128bbf7c7072349",
             secret: "5f72653eba818842c16c4fdb9c874ae02100ffced413f638b7bd9c65fd5b92a4"
         }),
@@ -22,7 +22,7 @@ export default function BasicMap() {
 
     const mapOptions = useMemo(
         () => ({
-            backgroundColor: "#CFCFCF" // Background colour behind the map
+            backgroundColor: "#323540" // Background colour behind the map
         }),
         []
     );
@@ -41,12 +41,12 @@ export default function BasicMap() {
     }, [mapView, venue]);
 
     return (
-        <div id="app">
-            <div id="ui">
+        <div id="app" className={`${showPopup ? 'w-1/2 mr-auto' : 'w-full'}`}>
+            <div id="ui" className={`text-sm ${showPopup ? 'w-1/2 mr-auto' : 'w-full'}`}>
                 {/* Render some map details to the UI */}
                 {venue?.venue.name ?? "Loading..."}
                 {venue && (
-                    <select
+                    <select className="py-1"
                         onChange={(e) => {
                             if (!mapView || !venue) {
                                 return;

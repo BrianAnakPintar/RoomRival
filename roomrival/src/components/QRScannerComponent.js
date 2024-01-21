@@ -80,13 +80,20 @@ const QRScannerComponent = () => {
     }, []);
 
     return (
-        <div>
-            <div id="video-container">
-                <video id="qr-video" autoPlay playsInline></video>
-            </div>
-            <select id="select-camera"></select>
-            <div id="cam-qr-result"></div>
-        </div>
+        // <div className="fixed h-screen">
+             <modal className="modal" open={true}>
+                <div className="modal-box text-sm">
+                    <div id="video-container">
+                        <video id="qr-video" autoPlay playsInline></video>
+                    </div>
+                    <div className="pt-4">
+                        <select id="select-camera"></select>
+                        <div id="cam-qr-result"></div>
+                    </div>
+                </div>
+                <button>Close</button>
+            </modal>
+        // </div>
     );
 };
 
