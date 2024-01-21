@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import io from "socket.io-client";
 import {useEffect} from "react";
@@ -6,6 +6,9 @@ import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 
 const socket = io.connect("http://localhost:3001");
+import Navbar from "./components/navbar";
+import AMSMap from "./components/ams_map";
+import { Html5QrcodeScanner} from "html5-qrcode";
 
 function App() {
     const sendMessage = () => {
@@ -14,17 +17,32 @@ function App() {
     };
 
     useEffect(() => {
-        socket.on("receive_user", (data) => {
-            alert(data.id);
-        });
-    }, [socket]);
+        const scanner = new Html5QrcodeScanner('reader', {
+            qrbox: {
+                width: 250,
+                height: 250,
+            },
+            fps: 5,
+        }, true);
+
+        scanner.render(scanSuccess, scanError)
+
+        function scanSuccess(result) {
+            scanner.clear();
+            console.log(result)
+        }
+
+        function scanError(result) {
+            console.warn(result)
+        }
+    }, []);
 
     return (
         <div className="App">
             {/*<header className="App-header">*/}
             {/*</header>*/}
             <body className="App-body">
-                <input id="username"/>
+                <div id="reader"></div>
                 <button onClick={sendMessage}>Send</button>
                 <Login/>
             </body>
