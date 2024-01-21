@@ -1,10 +1,17 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import Navbar from "./components/navbar";
-import AMSMap from "./components/ams_map";
-import { Html5QrcodeScanner} from "html5-qrcode";
+import io from "socket.io-client";
+import Login from "./components/Login";
+import Navbar from "./components/Navbar";
+import {Html5QrcodeScanner} from "html5-qrcode";
+
+const socket = io.connect("http://localhost:3001");
 
 function App() {
+    const sendMessage = () => {
+        let username = document.getElementById("username");
+        socket.emit("set_username", username.value);
+    };
 
     useEffect(() => {
         const scanner = new Html5QrcodeScanner('reader', {
@@ -27,14 +34,19 @@ function App() {
         }
     }, []);
 
-  return (
-    <div className="App">
-        <Navbar title={"Room Rival"}/>
-        <div id="reader"></div>
-        <h1>Welcome!</h1>
-        <div id="app"></div>
-    </div>
-  );
+    return (
+        <div className="App">
+            {/*<header className="App-header">*/}
+            {/*</header>*/}
+            <body className="App-body">
+                <div id="reader" className="text-white"></div>
+                <div id="app"></div>
+                <button onClick={sendMessage}>Send</button>
+                <Login/>
+                <Navbar className="navbar"/>
+            </body>
+        </div>
+    );
 }
 
 export default App;
