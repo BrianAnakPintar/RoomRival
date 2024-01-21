@@ -8,23 +8,67 @@ app.use(cors());
 
 const server = http.createServer(app);
 
-let users = [];
-let rooms = [];
+let users = new Map();
+let rooms = [
+    {pointsWorth: 5, currentUserId: undefined, roomName: "Grand noodle"},
+    {pointsWorth: 1, currentUserId: undefined, roomName: ""},
+    {pointsWorth: 2, currentUserId:  undefined},
+    {pointsWorth: 1, currentUserId:  undefined},
+    {pointsWorth: 3, currentUserId: undefined},
+    {pointsWorth: 1, currentUserId: undefined},
+    {pointsWorth: 1, currentUserId: undefined},
+    {pointsWorth: 1, currentUserId: undefined},
+    {pointsWorth: 1, currentUserId: undefined},
+    {pointsWorth: 1, currentUserId: undefined},
+    {pointsWorth: 1, currentUserId: undefined},
+    {pointsWorth: 1, currentUserId: undefined}
+];
 
 /*
 room
 {
-  roomid,
   pointsWorth,
-  currentUser
+  currentUserId
 }
 
 */
 
 function addUser(id, username) {
-  let user = {id: id, user: username, pts: 0};
-  users.push(user);
+    let user = {username: username, points: 0};
+    users.set(id, user);
 }
+
+function clearData() {
+    users = new Map();
+    for(room of rooms) {
+        room.currentUserId = undefined;
+    }
+}
+
+function claimRoom(roomId, userId) {
+    let oldUser = users.get(rooms[roomId].currentUserId);
+    let pts = rooms[roomId].pointsWorth;
+
+    let newUser = users.get(userId);
+    if (oldUser)
+        oldUser.points -= pts;
+    newUser.points += pts;
+
+    // TODO: Enter code to update the room color with room id.
+    // Do a socket.emit to the users here!
+
+    // TODO: Set a timer for this room? Can be implemented later.
+
+    console.log(roomId);
+    console.log(userId);
+}
+
+function sortUsers() {
+    let arr = users.values().toArray();
+    arr.sort((a, b) => b.points - a.points);
+    return arr;
+}
+
 
 const io = new Server(server, {
   cors: {
@@ -36,9 +80,12 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
     socket.on("set_username", (username) => {
-      addUser(socket.id, username);
-      console.log(users.length);
-      socket.emit("receive_user", user);
+        addUser(socket.id, username);
+        console.log(users);
+        socket.emit("receive_user", users.size);
+    });
+    socket.on("room_update", (roomId) => {
+        claimRoom(roomId, socket.id);
     });
   });
   

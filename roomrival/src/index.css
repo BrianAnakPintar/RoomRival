@@ -16,10 +16,6 @@ code {
     monospace;
 }
 
-#app {
-  width: 50%;
-}
-
 #ui {
   position: absolute;
   font-family: Helvetica, Arial, sans-serif;
