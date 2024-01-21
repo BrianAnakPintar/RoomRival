@@ -1,16 +1,20 @@
 import React, { useEffect } from 'react';
 import QRScanner from 'qr-scanner'; // Replace with the actual library import
 
-const QRScannerComponent = () => {
+const QRScannerComponent = ({handleSubmit}) => {
     useEffect(() => {
         const video = document.getElementById('qr-video');
         const videoContainer = document.getElementById('video-container');
         const camQrResult = document.getElementById('cam-qr-result');
         let scanner;
 
+        const handleStuff = (e) => {
+            handleSubmit(e);
+        }
+
         function setResult(label, result) {
             alert(result.data);
-            // sendPointUpdate(result.data);
+            handleStuff(result.data);
             scanner.stop();
         }
 

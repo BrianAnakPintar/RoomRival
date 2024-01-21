@@ -67,7 +67,7 @@ function App() {
                 )}
             </div>
             {showScanner && (
-                <QRScannerComponent />
+                <QRScannerComponent handleSubmit={sendPointUpdate} />
             )}
             <div></div>
             </body>
