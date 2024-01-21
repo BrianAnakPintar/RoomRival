@@ -11,18 +11,29 @@ const server = http.createServer(app);
 let users = new Map();
 
 let rooms = [
-    {pointsWorth: 5, currentUserId: undefined, roomName: "Grand noodle"},
+    {pointsWorth: 5, currentUserId: undefined, roomName: "Women's Washroom"},
+    {pointsWorth: 1, currentUserId: undefined, roomName: "ELEV"},
+    {pointsWorth: 2, currentUserId: undefined, roomName: "INS Market LL301"},
+    {pointsWorth: 1, currentUserId: undefined, roomName: "The Soup Market LL303"},
+    {pointsWorth: 3, currentUserId: undefined, roomName: "Shapecut Hair Design LL401"},
+    {pointsWorth: 1, currentUserId: undefined, roomName: "Campus Vision LL302"},
+    {pointsWorth: 1, currentUserId: undefined, roomName: "Flavour Lab LL104"},
+    {pointsWorth: 1, currentUserId: undefined, roomName: "Stairs"},
+    {pointsWorth: 1, currentUserId: undefined, roomName: "LL201"},
+    {pointsWorth: 1, currentUserId: undefined, roomName: "Grand Noodle Emporium LL105"},
+    {pointsWorth: 1, currentUserId: undefined, roomName: "The Commons LL102"},
+    {pointsWorth: 1, currentUserId: undefined, roomName: "The Pit LL01"},
+    {pointsWorth: 1, currentUserId: undefined, roomName: "CITR Radio LL502"},
+    {pointsWorth: 1, currentUserId: undefined, roomName: "The Delly LL304"},
     {pointsWorth: 1, currentUserId: undefined, roomName: ""},
-    {pointsWorth: 2, currentUserId: undefined},
-    {pointsWorth: 1, currentUserId: undefined},
-    {pointsWorth: 3, currentUserId: undefined},
-    {pointsWorth: 1, currentUserId: undefined},
-    {pointsWorth: 1, currentUserId: undefined},
-    {pointsWorth: 1, currentUserId: undefined},
-    {pointsWorth: 1, currentUserId: undefined},
-    {pointsWorth: 1, currentUserId: undefined},
-    {pointsWorth: 1, currentUserId: undefined},
-    {pointsWorth: 1, currentUserId: undefined}
+    {pointsWorth: 1, currentUserId: undefined, roomName: ""},
+    {pointsWorth: 1, currentUserId: undefined, roomName: ""},
+    {pointsWorth: 1, currentUserId: undefined, roomName: ""},
+    {pointsWorth: 1, currentUserId: undefined, roomName: ""},
+    {pointsWorth: 1, currentUserId: undefined, roomName: ""},
+    {pointsWorth: 1, currentUserId: undefined, roomName: ""},
+    {pointsWorth: 1, currentUserId: undefined, roomName: ""},
+    {pointsWorth: 1, currentUserId: undefined, roomName: ""},
 ];
 
 
@@ -58,15 +69,8 @@ function startTimer(socket) {
 }
 
 function addUser(id, username) {
-    let user = {username: username, points: 0};
+    let user = {username: username, points: 0, indexId: users.size};
     users.set(id, user);
-}
-
-function clearData() {
-    users = new Map();
-    for (room of rooms) {
-        room.currentUserId = undefined;
-    }
 }
 
 function clearData() {
@@ -83,19 +87,15 @@ function claimRoom(roomId, userId) {
     let newUser = users.get(userId);
     if (oldUser)
         oldUser.points -= pts;
-    newUser.points += pts;
-
-    // TODO: Enter code to update the room color with room id.
-    // Do a socket.emit to the users here!
-
-    // TODO: Set a timer for this room? Can be implemented later.
-
-    console.log(roomId);
+    console.log("YAYAYAYA");
     console.log(userId);
+    console.log(newUser);
+    if (newUser)
+        newUser.points += pts;
 }
 
 function sortUsers() {
-    let arr = users.values().toArray();
+    let arr = Array.from(users.values())
     arr.sort((a, b) => b.points - a.points);
     return arr;
 }
@@ -117,9 +117,17 @@ io.on("connection", (socket) => {
     });
     socket.on("room_update", (roomId) => {
         claimRoom(roomId, socket.id);
+        // Socket emit to update room color to user.
+        let userIdx = users.get(socket.id).indexId;
+        console.log("A");
+        io.emit("update_room", roomId, userIdx);
+        console.log("B");
+        let arr = sortUsers();
+        io.emit("point_update", arr);
     });
 });
 
 server.listen(3001, () => {
     console.log("SERVER IS RUNNING");
+    // startTimer();
 });

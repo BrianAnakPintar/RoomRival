@@ -3,6 +3,7 @@ import './App.css';
 // import Navbar from "./components/navbar";
 import io from "socket.io-client";
 import {useState} from "react";
+import QrScanner from 'qr-scanner';
 import QRScannerComponent from "./components/QRScannerComponent";
 import Login from "./components/Login";
 import Map from "./components/Map";
@@ -14,9 +15,21 @@ import Leaderboard from "./components/Leaderboard";
 const socket = io.connect("http://localhost:3001");
 
 function App() {
+    // let roomColorIdx = 2;
+    // let roomDataIdx = 2;
+    let changeColorInfo = true;
+
+    const [roomColorIdx, setRoomColorIdx] = useState(2);
+    const [roomDataIdx, setRoomDataIdx] = useState(2);
+
     useEffect(() => {
         socket.on("receive_user", (data) => {
             // alert(data);
+        });
+
+        socket.on("update_room", (roomId, color) => {
+            setRoomColorIdx(color);
+            setRoomDataIdx(roomId);
         });
 
     }, [socket]);
@@ -37,7 +50,7 @@ function App() {
     };
 
     const sendPointUpdate = (num) => {
-        socket.emit("point_update", num);
+        socket.emit("room_update", num);
     };
 
 
@@ -88,7 +101,7 @@ function App() {
             <body className="App-body">
             {/*<AppBody showPopup={showPopup}/>*/}
             <div className="flex flex-wrap w-full">
-                <BasicMap showPopup={showPopup}/>
+                <BasicMap showPopup={showPopup} changeColorRoomIdx={roomDataIdx} changeColorRoomColor={roomColorIdx}/>
                 {showPopup && (
                     <Login onSubmit={handleUsernameSubmit} showPopup={showPopup}/>
                 )}
