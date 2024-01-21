@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import QRScanner from 'qr-scanner'; // Replace with the actual library import
 
+// const QRScannerComponent = ({handleSubmit}) => {
 const QRScannerComponent = ({ onToggleScanner }) => {
     const [scan, setScan] = useState(null);
 
@@ -10,9 +11,12 @@ const QRScannerComponent = ({ onToggleScanner }) => {
         const camQrResult = document.getElementById('cam-qr-result');
         let scanner;
 
+        const handleStuff = (e) => {
+            handleSubmit(e);
+        }
+
         function setResult(label, result) {
-            // alert(result.data);
-            // sendPointUpdate(result.data);
+            handleStuff(result.data);
             scanner.stop();
             onToggleScanner();
         }
@@ -109,6 +113,7 @@ const QRScannerComponent = ({ onToggleScanner }) => {
                         <button className="btn btn-sm btn-outline" onClick={handleScannerClose}>Close</button>
                     </div>
                 </div>
+                <button>Close</button>
             </modal>
         // </div>
     );

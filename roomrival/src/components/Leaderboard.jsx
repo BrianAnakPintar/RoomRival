@@ -16,7 +16,7 @@ const Leaderboard = ({ onClose, leaderboardData }) => {
                     <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{entry.username}</td>
-                        <td>{entry.score}</td>
+                        <td>{entry.points}</td>
                     </tr>
                 ))}
                 </tbody>

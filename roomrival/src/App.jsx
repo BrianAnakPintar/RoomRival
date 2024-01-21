@@ -67,7 +67,7 @@ function App() {
                 )}
             </div>
             {showScanner && (
-                <QRScannerComponent onToggleScanner={handleToggleScanner}/>
+                <QRScannerComponent handleSubmit={sendPointUpdate} onToggleScanner={handleToggleScanner}/>
             )}
             <div></div>
             </body>
