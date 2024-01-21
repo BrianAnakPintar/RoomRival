@@ -1,10 +1,57 @@
 import "@mappedin/mappedin-js/lib/mappedin.css";
-import {useEffect, useMemo} from "react";
+import {useEffect, useMemo, useState} from "react";
 import useMapView from "./hooks/useMapView.ts";
 import useVenueMaker from "./hooks/useVenueMaker.ts";
 
 /* This demo shows you how to configure and render a map. */
-export default function BasicMap( { showPopup, changeColorRoomIdx, changeColorRoomColor } ) {
+export default function BasicMap({showPopup, changeColorRoomIdx, changeColorRoomColor}) {
+
+    const [pageDimensions, setPageDimensions] = useState({
+        width: window.innerWidth,
+        height: window.innerHeight,
+    });
+
+    useEffect(() => {
+        const handleResize = () => {
+            setPageDimensions({
+                width: window.innerWidth,
+                height: window.innerHeight,
+            });
+        };
+
+        // Add event listener for window resize
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup: Remove event listener when the component is unmounted
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []); // Empty dependency array ensures the effect runs only once on mount
+
+    const isWidePage = () => {
+        return pageDimensions.width > pageDimensions.height;
+    }
+
+    const setPageLayout = () => {
+        console.log('here', showPopup, isWidePage())
+        if (showPopup && isWidePage()) {
+            return 'w-1/2';
+        } else if (showPopup && !isWidePage()) {
+            return 'w-full h-1/2';
+        } else {
+            return 'w-full h-full';
+        }
+    }
+
+    const setPageLayoutMap = () => {
+        if (showPopup && isWidePage()) {
+            return '100vh';
+        } else if (showPopup && !isWidePage()) {
+            return '50vh';
+        } else {
+            return '100vh';
+        }
+    }
     /*
      * API keys and options for fetching the venue must be memoized
      * to prevent React from re-rendering excessively.
@@ -52,23 +99,24 @@ export default function BasicMap( { showPopup, changeColorRoomIdx, changeColorRo
     }, [mapView, venue, changeColorRoomIdx, changeColorRoomColor]);
 
     return (
-        <div id="app" className={`${showPopup ? 'w-1/2 mr-auto' : 'w-full'}`}>
+        // <div id="app" className={`${showPopup ? 'w-1/2 mr-auto' : 'w-full'}`}>
+        <div id="app" className={`${setPageLayout()}`}>
             <div id="ui" className={`text-sm ${showPopup ? 'w-1/2 mr-auto' : 'w-full'}`}>
                 {/* Render some map details to the UI */}
                 {venue?.venue.name ?? "Loading..."}
                 {venue && (
                     <select className="py-1"
-                        onChange={(e) => {
-                            if (!mapView || !venue) {
-                                return;
-                            }
+                            onChange={(e) => {
+                                if (!mapView || !venue) {
+                                    return;
+                                }
 
-                            // When the floor select changes we can find and set the map to that ID
-                            const floor = venue.maps.find((map) => map.id === e.target.value);
-                            if (floor) {
-                                mapView.setMap(floor);
-                            }
-                        }}
+                                // When the floor select changes we can find and set the map to that ID
+                                const floor = venue.maps.find((map) => map.id === e.target.value);
+                                if (floor) {
+                                    mapView.setMap(floor);
+                                }
+                            }}
                     >
                         {/* The venue "maps" represent each floor */}
                         {venue?.maps.map((level, index) => {
@@ -81,7 +129,8 @@ export default function BasicMap( { showPopup, changeColorRoomIdx, changeColorRo
                     </select>
                 )}
             </div>
-            <div id="map-container" ref={elementRef}></div>
+            <div id="map-container" ref={elementRef} style={{height: setPageLayoutMap(), background: '#323540'}}
+                 className="mt-2"></div>
         </div>
     );
 }

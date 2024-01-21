@@ -4,32 +4,32 @@ import Leaderboard from "./Leaderboard";
 import QRButton from "./QRButton";
 
 const socket = io.connect("http://localhost:3001");
-function Navbar({onToggleScanner}) {
-
-    const [showLeaderboard, setShowLeaderboard] = useState(false);
-    const [leaderboardData, setLeaderboardData] = useState([]);
-
-    useEffect(() => {
-        socket.on("point_update", (data) => {
-            setLeaderboardData(data);
-        });
-
-    }, [socket]);
-
-    // const leaderboardTemp = [
-    //     { username: 'Alice', score: 1200 },
-    //     { username: 'Bob', score: 950 },
-    //     { username: 'Charlie', score: 800 },
-    //     { username: 'David', score: 1100 },
-    // ];
-
-
-    const handleLeaderboardClick = () => {
-        setShowLeaderboard(true);
-    };
-    const handleCloseLeaderboard = () => {
-        setShowLeaderboard(false);
-    };
+function Navbar({onToggleScanner, handleOpenLB}) {
+    //
+    // const [showLeaderboard, setShowLeaderboard] = useState(false);
+    // const [leaderboardData, setLeaderboardData] = useState([]);
+    //
+    // useEffect(() => {
+    //     socket.on("point_update", (data) => {
+    //         setLeaderboardData(leaderboardData);
+    //     });
+    //
+    // }, [socket]);
+    //
+    // // const leaderboardTemp = [
+    // //     { username: 'Alice', score: 1200 },
+    // //     { username: 'Bob', score: 950 },
+    // //     { username: 'Charlie', score: 800 },
+    // //     { username: 'David', score: 1100 },
+    // // ];
+    //
+    //
+    // const handleLeaderboardClick = () => {
+    //     setShowLeaderboard(true);
+    // };
+    // const handleCloseLeaderboard = () => {
+    //     setShowLeaderboard(false);
+    // };
 
     return (
         <div className="navbar bg-base-100">
@@ -38,13 +38,13 @@ function Navbar({onToggleScanner}) {
             </div>
             <div className="navbar-center lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><a onClick={onToggleScanner} style={{backgroundColor:"white"}}><QRButton/></a></li>
+                    <li onClick={onToggleScanner} style={{backgroundColor:"white"}}><QRButton/></li>
                 </ul>
             </div>
             <div className="navbar-end">
                 <div className="flex-none">
                     <ul className="menu menu-horizontal px-1">
-                        <li onClick= {handleLeaderboardClick}><a>
+                        <li onClick= {handleOpenLB}><a>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -52,9 +52,9 @@ function Navbar({onToggleScanner}) {
                             </svg>
                             Leaderboard</a></li>
                     </ul>
-                    {showLeaderboard && (
-                        <Leaderboard onClose={handleCloseLeaderboard} leaderboardData={leaderboardData} />
-                    )}
+                    {/*{showLeaderboard && (*/}
+                    {/*    <Leaderboard onClose={handleCloseLeaderboard} leaderboardData={leaderboardData} />*/}
+                    {/*)}*/}
                 </div>
             </div>
         </div>

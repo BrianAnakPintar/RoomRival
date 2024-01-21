@@ -112,7 +112,6 @@ const QRScannerComponent = ({ onToggleScanner, handleSubmit } ) => {
                         <button className="btn btn-sm btn-outline" onClick={handleScannerClose}>Close</button>
                     </div>
                 </div>
-                <button>Close</button>
             </modal>
         // </div>
     );
