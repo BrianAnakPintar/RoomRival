@@ -11,6 +11,10 @@ const server = http.createServer(app);
 let users = new Map();
 let rooms = [];
 
+let start = Date.now();
+const gameLength = 10000;
+let timerIntervalId = 0;
+
 /*
 users
 {
@@ -26,6 +30,17 @@ rooms are order by roomID (array index)
 }
 
 */
+
+function startTimer(socket) {
+  start = Date.now();
+  timerIntervalId = setInterval((socket) => {
+    let timeLeft = gameLength - (Date.now() - start)
+    socket.emit("receive_user", timeLeft);
+    if (timeLeft < 0) {
+      clearInterval(timerIntervalId);
+    }
+  }, 1000, socket);
+}
 
 function addUser(id, username) {
   let user = {username: username, points: 0};
@@ -47,16 +62,15 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-    console.log(`User Connected: ${socket.id}`);
-    socket.on("set_username", (username) => {
-      addUser(socket.id, username);
-      console.log(users.get(socket.id));
-      socket.emit("receive_user", users.size);
-    });
-    socket.on("clear", () => {
-      clearData();
-    })
+  console.log(`User Connected: ${socket.id}`);
+  socket.on("set_username", (username) => {
+    startTimer(socket);
+    // socket.emit("receive_user", users.size);
   });
+  socket.on("clear", () => {
+    clearData();
+  })
+});
   
 server.listen(3001, () => {
   console.log("SERVER IS RUNNING");

@@ -30,6 +30,7 @@ function App() {
         <input id="username" />
         <button onClick={sendMessage}>Send</button>
         <button onClick={clearData}>Clear</button>
+        <button onClick={clearData}>Timer</button>
       </header>
     </div>
   );
