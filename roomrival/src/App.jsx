@@ -20,16 +20,6 @@ function App() {
 
     }, [socket]);
 
-
-        function scanError(result) {
-            console.warn(result)
-        }
-
-        socket.on("receive_user", (user) => {
-            alert(user.user);
-        });
-    }, [socket]);
-
     const [username, setUsername] = useState('');
     const [showPopup, setShowPopup] = useState(true);
 
@@ -46,6 +36,9 @@ function App() {
     return (
     <div className="App">
         {/*<Navbar title={"Room Rival"}/>*/}
+        <div className="App-header">
+            <QRScannerComponent/>
+        </div>
         <h1>Welcome!</h1>
         <div id="app"></div>
 
@@ -64,7 +57,6 @@ function App() {
         <div id="reader" className="text-white"></div>
         <div id="app"></div>
         <Login/>
-        <QRScannerComponent/>
         <Navbar className="navbar"/>
         </body>
     </div>

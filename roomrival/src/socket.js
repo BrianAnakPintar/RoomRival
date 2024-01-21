@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const http = require("http");
-const { Server } = require("socket.io");
+const {Server} = require("socket.io");
 const cors = require("cors");
 
 app.use(cors());
@@ -13,8 +13,8 @@ let users = new Map();
 let rooms = [
     {pointsWorth: 5, currentUserId: undefined, roomName: "Grand noodle"},
     {pointsWorth: 1, currentUserId: undefined, roomName: ""},
-    {pointsWorth: 2, currentUserId:  undefined},
-    {pointsWorth: 1, currentUserId:  undefined},
+    {pointsWorth: 2, currentUserId: undefined},
+    {pointsWorth: 1, currentUserId: undefined},
     {pointsWorth: 3, currentUserId: undefined},
     {pointsWorth: 1, currentUserId: undefined},
     {pointsWorth: 1, currentUserId: undefined},
@@ -47,14 +47,14 @@ rooms are order by roomID (array index)
 */
 
 function startTimer(socket) {
-  start = Date.now();
-  timerIntervalId = setInterval((socket) => {
-    let timeLeft = gameLength - (Date.now() - start)
-    socket.emit("receive_user", timeLeft);
-    if (timeLeft < 0) {
-      clearInterval(timerIntervalId);
-    }
-  }, 1000, socket);
+    start = Date.now();
+    timerIntervalId = setInterval((socket) => {
+        let timeLeft = gameLength - (Date.now() - start)
+        socket.emit("receive_user", timeLeft);
+        if (timeLeft < 0) {
+            clearInterval(timerIntervalId);
+        }
+    }, 1000, socket);
 }
 
 function addUser(id, username) {
@@ -63,15 +63,15 @@ function addUser(id, username) {
 }
 
 function clearData() {
-  users = new Map();
-  for(room of rooms) {
-    room.currentUserId = undefined;
-  }
+    users = new Map();
+    for (room of rooms) {
+        room.currentUserId = undefined;
+    }
 }
 
 function clearData() {
     users = new Map();
-    for(room of rooms) {
+    for (room of rooms) {
         room.currentUserId = undefined;
     }
 }
@@ -102,10 +102,10 @@ function sortUsers() {
 
 
 const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+    },
 });
 
 io.on("connection", (socket) => {
@@ -118,13 +118,8 @@ io.on("connection", (socket) => {
     socket.on("room_update", (roomId) => {
         claimRoom(roomId, socket.id);
     });
-
-  });
-  socket.on("clear", () => {
-    clearData();
-  })
 });
 
 server.listen(3001, () => {
-  console.log("SERVER IS RUNNING");
+    console.log("SERVER IS RUNNING");
 });

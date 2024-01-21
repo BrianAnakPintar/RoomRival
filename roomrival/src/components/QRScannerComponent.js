@@ -10,7 +10,7 @@ const QRScannerComponent = () => {
 
         function setResult(label, result) {
             alert(result.data);
-            sendPointUpdate(result.data);
+            // sendPointUpdate(result.data);
             scanner.stop();
         }
 
