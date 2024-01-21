@@ -7,12 +7,20 @@ const Map = ({ username }) => {
     const handleLeaderboardClick = () => {
         setShowLeaderboard(true);
     };
-
-
+    const handleCloseLeaderboard = () => {
+        setShowLeaderboard(false);
+    };
 
     return (
         <div>
             <h1>Welcome, {username}!</h1>
+
+
+            <button onClick={handleLeaderboardClick}>Open Leaderboard</button>
+            {showLeaderboard && (
+                <Leaderboard onClose={handleCloseLeaderboard} leaderboardData={leaderboardData} />
+            )}
+
             {/* the map code */}
         </div>
     );
