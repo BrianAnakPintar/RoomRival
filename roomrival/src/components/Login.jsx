@@ -57,7 +57,7 @@ const Login = ({onSubmit, showPopup}) => {
             <div className="flex items-center justify-center" style={{ height: setPageLayoutLogin() }}>
                 <div className="card w-96 bg-base-100 shadow-xl">
                     <div className="card-body">
-                        <h1 className="card-title pb-2">RoomRival 🏃🏻🏢</h1>
+                        <h1 className="card-title pb-2" style={{fontFamily: "Luckiest Guy", fontSize: 30}}>ROOM RIVAL 🏃🏻🏢</h1>
                         <input
                             type="text"
                             placeholder="username"
