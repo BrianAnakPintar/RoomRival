@@ -5,7 +5,7 @@ const Leaderboard = ({handleOpenLB, handleCloseLB, leaderboardData}) => {
         <div className="overflow-x-auto">
             <modal className="modal" open>
                 <div className="modal-box text-sm">
-                    <h1 className="text-lg font-semibold">Leaderboard</h1>
+                    <h1 className="text-lg font-semibold">Leaderboard 🏆</h1>
                     <table className="table table-zebra">
                         <thead>
                         <tr>
