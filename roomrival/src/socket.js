@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
     socket.on("set_username", (username) => {
       addUser(socket.id, username);
       console.log(users.length);
-      socket.emit("receive_user", user);
+      socket.emit("receive_user", users[0]);
     });
   });
   
