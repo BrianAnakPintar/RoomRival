@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import {Html5QrcodeScanner} from "html5-qrcode";
+import BasicMap from "./Basic";
 
 const socket = io.connect("http://localhost:3001");
 
@@ -39,6 +40,7 @@ function App() {
             {/*<header className="App-header">*/}
             {/*</header>*/}
             <body className="App-body">
+                <BasicMap />
                 <div id="reader" className="text-white"></div>
                 <div id="app"></div>
                 <button onClick={sendMessage}>Send</button>
