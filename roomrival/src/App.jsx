@@ -68,7 +68,6 @@ function App() {
         <BasicMap />
         <div id="reader" className="text-white"></div>
         <div id="app"></div>
-        <button onClick={sendMessage}>Send</button>
         <Login/>
         <Navbar className="navbar"/>
         </body>
