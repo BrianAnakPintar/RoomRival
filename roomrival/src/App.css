@@ -25,6 +25,7 @@
 }
 
 .App-body {
+  /*background: linear-gradient(to bottom right, #323540, #898ea1);*/
   background-color: #424654;
   min-height: 100vh;
   display: flex;
