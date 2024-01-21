@@ -101,7 +101,7 @@ export default function BasicMap({showPopup, changeColorRoomIdx, changeColorRoom
     return (
         // <div id="app" className={`${showPopup ? 'w-1/2 mr-auto' : 'w-full'}`}>
         <div id="app" className={`${setPageLayout()}`}>
-            <div id="ui" className={`text-sm ${showPopup ? 'w-1/2 mr-auto' : 'w-full'}`}>
+            <div id="ui" className={`text-sm ${showPopup ? 'w-1/2 mr-auto' : 'max-w-lg'}`}>
                 {/* Render some map details to the UI */}
                 {venue?.venue.name ?? "Loading..."}
                 {venue && (
