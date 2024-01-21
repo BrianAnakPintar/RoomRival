@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
 import './App.css';
 // import Navbar from "./components/navbar";
-import { Html5QrcodeScanner} from "html5-qrcode";
 import io from "socket.io-client";
 import {useState} from "react";
+import QrScanner from 'qr-scanner';
+import QRScannerComponent from "./components/QRScannerComponent";
 import Login from "./components/Login";
 import Map from "./components/Map";
 import BasicMap from "./Basic";
@@ -13,20 +14,16 @@ const socket = io.connect("http://localhost:3001");
 
 function App() {
     useEffect(() => {
-        const scanner = new Html5QrcodeScanner('reader', {
-            qrbox: {
-                width: 250,
-                height: 250,
-            },
-            fps: 5,
-        }, true);
+        socket.on("receive_user", (data) => {
+            alert(data);
+        });
 
-        scanner.render(scanSuccess, scanError)
+    }, [socket]);
 
-        function scanSuccess(result) {
-            scanner.clear();
-            console.log(result)
-        }
+    const sendMessage = () => {
+        let username = document.getElementById("username");
+        socket.emit("set_username", username.value);
+    };
 
         function scanError(result) {
             console.warn(result)
@@ -46,11 +43,17 @@ function App() {
         setShowPopup(false);
 
     };
+    const sendPointUpdate = (num) => {
+        socket.emit("point_update", num);
+    };
+
+    const clearData = () => {
+        socket.emit("clear");
+    }
 
     return (
     <div className="App">
         {/*<Navbar title={"Room Rival"}/>*/}
-        <div id="reader"></div>
         <h1>Welcome!</h1>
         <div id="app"></div>
 
@@ -69,6 +72,7 @@ function App() {
         <div id="reader" className="text-white"></div>
         <div id="app"></div>
         <Login/>
+        <QRScannerComponent/>
         <Navbar className="navbar"/>
         </body>
     </div>
