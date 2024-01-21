@@ -19,8 +19,8 @@ function App() {
     // let roomDataIdx = 2;
     let changeColorInfo = true;
 
-    const [roomColorIdx, setRoomColorIdx] = useState(2);
-    const [roomDataIdx, setRoomDataIdx] = useState(2);
+    const [roomColorIdx, setRoomColorIdx] = useState(-1);
+    const [roomDataIdx, setRoomDataIdx] = useState(99);
 
     useEffect(() => {
         socket.on("receive_user", (data) => {
